@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>taskbar</title>
+</head>
+<body>
+     <h1 style="background-color: black;color: crimson; text-align: center;">Task Bar</h1>
+     <form action="" onsubmit="ONSUbMIT(event)">
+    <input type="text" placeholder="Enter the Tasks" name="username" id="" style="border-radius: 5px;">
+</form>
+<h3 style="color: cyan;">My tasks-<span>0</span></h3>
+
+    <ul>
+
+    </ul>
+
+
+<!--   ///////////// javascript code ////////////-->
+<script>
+    const countHandle =  document.querySelector('span')
+    const ulHandle = document.querySelector('ul')
+    const array1 = JSON.parse(localStorage.getItem('tasks'))||[]
+    function ONSUbMIT(e){
+        e.preventDefault()
+      
+        const object1 = {
+            id:Number(new Date()),
+            title:e.target.username.value
+        }
+        e.target.reset()
+        array1.push(object1)
+        localStorage.setItem('tasks',JSON.stringify(array1))
+        ligenerator(object1)
+ }
+  /////// create functionality
+ function ligenerator(object1){
+    
+     const liHandle =document.createElement('li')
+        liHandle.textContent = object1.title
+        liHandle.style.color = 'crimson'
+        ulHandle.appendChild(liHandle)
+       countHandle.innerHTML = array1.length
+      removefunctionality(liHandle,object1)
+       
+ }
+ function removefunctionality(liHandle,object1){
+      /////////// remove functionality
+      let index=0
+      liHandle.addEventListener('click',function(){
+            ulHandle.removeChild(liHandle)
+            array1.forEach(ele=>{
+                if(ele.id == object1.id)
+                {
+index = array1.indexOf(ele)
+                }
+            })
+            array1.splice(index,1)
+           localStorage.setItem('tasks',JSON.stringify(array1))
+            countHandle.textContent = array1.length
+        })
+ }
+
+ array1.forEach(ele=>{
+     ligenerator(ele)
+ })
+</script>
+</body>
+</html>
